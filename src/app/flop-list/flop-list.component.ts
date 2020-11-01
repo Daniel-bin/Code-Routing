@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FlopService } from './flop.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'my-flop-list',
@@ -11,7 +12,7 @@ export class FlopListComponent  {
   flops$;
   rentalList: {count:number, titles:string};
 
-  constructor(private flopService: FlopService) {
+  constructor(private flopService: FlopService, private router: Router) {
 
   }
 
@@ -39,6 +40,10 @@ export class FlopListComponent  {
     event.preventDefault()
     this.flopService.addRental(flop.title);
     this.getRentalList();
+  
+    console.log("length:" + this.rentalList.count);
+    if (this.rentalList.count > 10) {
+      this.router.navigate(["/toomany"]);
+    }
   }
-
 }
